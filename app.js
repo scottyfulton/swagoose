@@ -10,15 +10,19 @@ const app = express();
 
 //import routes
 const postsRoute = require("./routes/posts");
+const registerRoute = require("./routes/register");
+const loginRoute = require("./routes/login");
 
 //middleware
 //parses the body of EVERY app.use
 app.use(cors());
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
-app.use("/posts", postsRoute);
 
 //ROUTES
+app.use("/register", registerRoute);
+app.use("/posts", postsRoute);
+app.use("/login", loginRoute);
 app.get("/", (req, res) => {
     res.send("home here");
 });
@@ -27,7 +31,6 @@ app.get("/", (req, res) => {
  * connect to db
  * passed { useNewUrlParser: true, useUnifiedTopology: true } to avoid deprecated msg
  * also used .env to house username and password
- *
  */
 mongoose.connect(
     connection,
