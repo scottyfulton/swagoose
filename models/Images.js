@@ -7,7 +7,8 @@ const ImageSchema = new mongoose.Schema({
         required: true
     },
     imageBase64: {
-        type: { data: Buffer, contentType: String },
+        // type: { data: Buffer, contentType: String },
+        type: String,
         required: true
     }
     // ,
