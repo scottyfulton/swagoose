@@ -12,6 +12,7 @@ const app = express();
 const postsRoute = require("./routes/posts");
 const registerRoute = require("./routes/register");
 const loginRoute = require("./routes/login");
+const imageRoute = require("./routes/image");
 
 //middleware
 //parses the body of EVERY app.use
@@ -23,6 +24,7 @@ app.use(parser.urlencoded({ extended: true }));
 app.use("/register", registerRoute);
 app.use("/posts", postsRoute);
 app.use("/login", loginRoute);
+app.use("/image", imageRoute);
 app.get("/", (req, res) => {
     res.send("home here");
 });
