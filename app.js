@@ -7,12 +7,13 @@ const DB_NAME = "cluster0";
 const cors = require("cors");
 const PORT = process.env.PORT || 3003;
 const app = express();
+const path = require("path");
 
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static("__dirname"));
-    app.use(express.static("routes"));
-    app.use(express.static("imaging"));
-    // app.use("/static", express.static(path.join(__dirname, "routes")));
+    // app.use(express.static("__dirname"));
+    // app.use(express.static("__dirname/routes"));
+    // app.use(express.static("__dirname/imaging"));
+    app.use("/static", express.static(path.join(__dirname, "client/build")));
 }
 
 //import routes
@@ -28,6 +29,7 @@ app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
 
 //ROUTES
+
 app.use("/register", registerRoute);
 app.use("/posts", postsRoute);
 app.use("/login", loginRoute);
@@ -36,6 +38,7 @@ app.use("/image", imageRoute);
 // app.get("*", (request, response) => {
 //     response.sendFile(path.join(__dirname, "client/build", "index.html"));
 // });
+
 app.get("/", (req, res) => {
     res.send("home here");
 });
