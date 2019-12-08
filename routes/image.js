@@ -47,7 +47,7 @@ router.route("/uploadbase").post(async (req, res, next) => {
     );
     // async () => {
     //     return new Promise((resolve, reject) => {
-    fs.writeFile("./out.png", base64Datum, "base64", function(err) {
+    fs.writeFile("out.png", base64Datum, "base64", function(err) {
         if (err) {
             console.error(err);
         }
@@ -56,7 +56,7 @@ router.route("/uploadbase").post(async (req, res, next) => {
     // });
     // };
 
-    await Jimp.read("./out.png", (err, image) => {
+    await Jimp.read("out.png", (err, image) => {
         if (err) {
             throw err;
         }
@@ -75,7 +75,7 @@ router.route("/uploadbase").post(async (req, res, next) => {
                 .quality(100) // set JPEG quality
                 // .greyscale() // set greyscale
                 // .invert()
-                .write("./smallerImg.png"); // save
+                .write("smallerImg.png"); // save
         } else {
             console.log("it's not a square");
             image
@@ -83,14 +83,14 @@ router.route("/uploadbase").post(async (req, res, next) => {
                 .quality(100) // set JPEG quality
                 // .greyscale() // set greyscale
                 // .invert()
-                .write("./smallerImg.png"); // save
+                .write("smallerImg.png"); // save
         }
         // });
         // console.log("pyprog'd");
         // const pyprog =
         // try {
         () => {
-            spawn("python", ["./pillow.py", "./smallerImg.png"]),
+            spawn("python", ["pillow.py", "smallerImg.png"]),
                 console.log("spawned");
         };
         // } catch (error) {
@@ -99,7 +99,7 @@ router.route("/uploadbase").post(async (req, res, next) => {
         // };
 
         // var data = () => {
-        fs.readFile("./encodedTxt.txt", (err, data) => {
+        fs.readFile("encodedTxt.txt", (err, data) => {
             if (err) throw err;
 
             data = "data:image/png;base64," + data;
