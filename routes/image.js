@@ -4,6 +4,7 @@ const Image = require("../models/Images.js");
 const Jimp = require("jimp");
 const fs = require("fs");
 const FileBase = require("react-file-base64");
+const spawn = require("child_process").spawn;
 
 // get one
 router.get("/findOne/:companyName", async (req, res) => {
@@ -44,24 +45,28 @@ router.route("/uploadbase").post(async (req, res, next) => {
         /^data:image\/png;base64,/,
         ""
     );
-    async () => {
-        return new Promise((resolve, reject) => {
-            fs.writeFile("./out.png", base64Datum, "base64", function(err) {
-                if (err) {
-                    reject(err);
-                }
-                console.log("out.png saved");
-            });
-        });
-    };
+    // async () => {
+    //     return new Promise((resolve, reject) => {
+    fs.writeFile("./out.png", base64Datum, "base64", function(err) {
+        if (err) {
+            console.error(err);
+        }
+        console.log("out.png saved");
+    });
+    // });
+    // };
 
     await Jimp.read("./out.png", (err, image) => {
-        if (err) throw err;
+        if (err) {
+            throw err;
+        }
 
         var w = image.bitmap.width;
         var h = image.bitmap.height;
         var wMh = w - h;
         var tenPer = h * 0.1;
+        console.log("tenPer: wMh ", tenPer, wMh);
+
         if (wMh < tenPer) {
             //then it's ~ a square
             console.log("its a square");
@@ -80,11 +85,16 @@ router.route("/uploadbase").post(async (req, res, next) => {
                 // .invert()
                 .write("./smallerImg.png"); // save
         }
-    }).then(() => {
-        const spawn = require("child_process").spawn;
-        const pyprog = async () => {
+        // });
+        console.log("pyprog'd");
+        const pyprog =
+            // try {
             spawn("python", ["./routes/pillow.py", "./smallerImg.png"]);
-        };
+        // } catch (error) {
+        // console.error(error);
+        // }
+        // };
+
         // var data = () => {
         fs.readFile("./encodedTxt.txt", (err, data) => {
             if (err) throw err;
