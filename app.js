@@ -13,7 +13,8 @@ if (process.env.NODE_ENV === "production") {
     // app.use(express.static("__dirname"));
     // app.use(express.static("__dirname/routes"));
     // app.use(express.static("__dirname/imaging"));
-    app.use("/static", express.static(path.join(__dirname, "client/build")));
+    app.use("/static", express.static(path.join(__dirname, "routes")));
+    app.use("/static", express.static(path.join(__dirname, "imaging")));
 }
 
 //import routes
