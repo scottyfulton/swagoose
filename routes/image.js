@@ -38,7 +38,7 @@ router.get("/", async (req, res) => {
 //post one
 router.route("/uploadbase").post(async (req, res, next) => {
     const cname = req.body.companyName;
-    console.log("in it post one");
+    // console.log("in it post one");
     const newImage = new Image({
         companyName: req.body.companyName,
         imageBase64: req.body.imageBase64
@@ -57,9 +57,16 @@ router.route("/uploadbase").post(async (req, res, next) => {
         /^data:image\/png;base64,/,
         ""
     );
-    fs.writeFile("./out.png", base64Datum, "base64", function(err) {
-        if (err) console.error(err);
-    });
+    async () => {
+        return new Promise((resolve, reject) => {
+            fs.writeFile("./out.png", base64Datum, "base64", function(err) {
+                if (err) {
+                    reject(err);
+                }
+                console.log("out.png saved");
+            });
+        });
+    };
 
     // pImg(newImage.imageBase64.toString("base64"));
     // var bitmap = base64_encode("_smallerImg.png");
@@ -67,7 +74,7 @@ router.route("/uploadbase").post(async (req, res, next) => {
     //     if (err) throw err;
     // });
 
-    Jimp.read("./out.png", (err, image) => {
+    await Jimp.read("./out.png", (err, image) => {
         if (err) throw err;
 
         var w = image.bitmap.width;
@@ -125,7 +132,7 @@ router.route("/uploadbase").post(async (req, res, next) => {
                         success: true,
                         document: result
                     });
-                    console.log("in it now");
+                    // console.log("in it now");
                 })
                 .catch(err => next(err));
             /////////////saves to mongo//////////////
