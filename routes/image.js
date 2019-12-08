@@ -118,16 +118,16 @@ router.route("/uploadbase").post(async (req, res, next) => {
             // console.log(data);
 
             /////////////saves to mongo//////////////
-            // bNewImage
-            //     .save()
-            //     .then(result => {
-            //         res.status(200).json({
-            //             success: true,
-            //             document: result
-            //         });
-            //         console.log("in it now");
-            //     })
-            //     .catch(err => next(err));
+            bNewImage
+                .save()
+                .then(result => {
+                    res.status(200).json({
+                        success: true,
+                        document: result
+                    });
+                    console.log("in it now");
+                })
+                .catch(err => next(err));
             /////////////saves to mongo//////////////
             // };
         });
