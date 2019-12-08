@@ -9,8 +9,10 @@ const PORT = process.env.PORT || 3003;
 const app = express();
 
 if (process.env.NODE_ENV === "production") {
-    // app.use(express.static("__dirname/routes"));
-    app.use("/static", express.static(path.join(__dirname, "routes")));
+    app.use(express.static("__dirname"));
+    app.use(express.static("routes"));
+    app.use(express.static("imaging"));
+    // app.use("/static", express.static(path.join(__dirname, "routes")));
 }
 
 //import routes
