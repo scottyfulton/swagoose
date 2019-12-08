@@ -10,14 +10,15 @@ router.get("/findOne/:companyName", async (req, res) => {
     const cname = req.params.companyName;
     console.log(cname);
 
-    const imagePull = await Image.find({
+    const imagePull = await Image.findOne({
         companyName: cname
     });
     try {
-        // console.log(imagePull[0].imageBase64.toString());
+        // console.log(imagePull);
+        // console.log(imagePull.imageBase64);
         res.contentType("json");
-        // res.status(200).send(imagePull[0].imageBase64.toString("base64"));
         res.status(200).send(imagePull);
+        // res.status(200).send(imagePull);
     } catch (error) {
         res.status(500).send(error);
     }
@@ -37,7 +38,7 @@ router.get("/", async (req, res) => {
 //post one
 router.route("/uploadbase").post(async (req, res, next) => {
     const cname = req.body.companyName;
-
+    console.log("in it post one");
     const newImage = new Image({
         companyName: req.body.companyName,
         imageBase64: req.body.imageBase64
@@ -71,7 +72,9 @@ router.route("/uploadbase").post(async (req, res, next) => {
 
         var w = image.bitmap.width;
         var h = image.bitmap.height;
-        if (w - h < h * 0.1) {
+        var wMh = w - h;
+        var tenPer = h * 0.1;
+        if (wMh < tenPer) {
             //then it's ~ a square
             console.log("its a square");
             image
@@ -113,23 +116,23 @@ router.route("/uploadbase").post(async (req, res, next) => {
                 imageBase64: data
             });
             // console.log(data);
-            bNewImage
-                .save()
-                .then(result => {
-                    res.status(200).json({
-                        success: true,
-                        document: result
-                    });
-                    console.log("in it now");
-                })
-                .catch(err => next(err));
+
+            /////////////saves to mongo//////////////
+            // bNewImage
+            //     .save()
+            //     .then(result => {
+            //         res.status(200).json({
+            //             success: true,
+            //             document: result
+            //         });
+            //         console.log("in it now");
+            //     })
+            //     .catch(err => next(err));
+            /////////////saves to mongo//////////////
             // };
         });
         // newImage.imageBase64 = data;
         // newImage.companyName = req.body.companyName;
-        /////////////saves to mongo//////////////
-
-        /////////////saves to mongo//////////////
     });
 
     // let runPy = new Promise(function(success, nosuccess) {
