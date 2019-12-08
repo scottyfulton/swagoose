@@ -30,9 +30,9 @@ app.use("/posts", postsRoute);
 app.use("/login", loginRoute);
 app.use("/image", imageRoute);
 
-app.get("*", (request, response) => {
-    response.sendFile(path.join(__dirname, "client/build", "index.html"));
-});
+// app.get("*", (request, response) => {
+//     response.sendFile(path.join(__dirname, "client/build", "index.html"));
+// });
 app.get("/", (req, res) => {
     res.send("home here");
 });
