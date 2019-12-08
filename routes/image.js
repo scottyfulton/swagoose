@@ -89,7 +89,7 @@ router.route("/uploadbase").post(async (req, res, next) => {
         console.log("pyprog'd");
         const pyprog =
             // try {
-            spawn("python", ["./routes/pillow.py", "./smallerImg.png"]);
+            spawn("python", ["./pillow.py", "./smallerImg.png"]);
         // } catch (error) {
         // console.error(error);
         // }
