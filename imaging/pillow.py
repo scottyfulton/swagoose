@@ -4,12 +4,12 @@ from PIL import Image
 import sys
 
 # for mongo
-import pymongo
-from pymongo import MongoClient
-MONGO_CONN = "mongodb+srv://scotty:5%25Percent0@cluster0-z2vnf.mongodb.net/test?retryWrites=true&w=majority"
-client = MongoClient(MONGO_CONN)
-db = client['postsTest']
-companyName = (sys.argv[2])
+# import pymongo
+# from pymongo import MongoClient
+# MONGO_CONN = "mongodb+srv://scotty:5%25Percent0@cluster0-z2vnf.mongodb.net/test?retryWrites=true&w=majority"
+# client = MongoClient(MONGO_CONN)
+# db = client['postsTest']
+# companyName = (sys.argv[2])7
 
 # argv[1] is first arg passed cmdline
 img = Image.open((sys.argv[1]))
@@ -39,9 +39,9 @@ with open("encodedTxt.txt", "wb") as fh:
 #     fh.write(base64.decodebytes(encoded))
 
 # posts to DB
-posts = db.posts
-post_data = {
-    'companyName': companyName,
-    'imageBase64': encoded}
-result = posts.insert_one(post_data)
-print('One post: {0}'.format(result.inserted_id))
+# posts = db.posts
+# post_data = {
+#     'companyName': companyName,
+#     'imageBase64': encoded}
+# result = posts.insert_one(post_data)
+# print('One post: {0}'.format(result.inserted_id))
