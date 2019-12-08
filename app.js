@@ -5,7 +5,7 @@ const env = require("dotenv").config();
 const connection = process.env.MONGO_CONNECTION;
 const DB_NAME = "cluster0";
 const cors = require("cors");
-
+const PORT = process.env.PORT || 3003;
 const app = express();
 
 //import routes
@@ -42,7 +42,7 @@ mongoose.connect(
     }
 );
 
-const port = 3003;
-app.listen(port, () => {
-    console.log(`Server is listening on port: ${port}`);
+// const port = 3003;
+app.listen(PORT, () => {
+    console.log(`Server is listening on port: ${PORT}`);
 });
