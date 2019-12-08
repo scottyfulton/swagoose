@@ -57,7 +57,7 @@ router.route("/uploadbase").post(async (req, res, next) => {
         /^data:image\/png;base64,/,
         ""
     );
-    fs.writeFile("out.png", base64Datum, "base64", function(err) {
+    fs.writeFile("./out.png", base64Datum, "base64", function(err) {
         if (err) console.error(err);
     });
 
@@ -67,7 +67,7 @@ router.route("/uploadbase").post(async (req, res, next) => {
     //     if (err) throw err;
     // });
 
-    Jimp.read("out.png", (err, image) => {
+    Jimp.read("./out.png", (err, image) => {
         if (err) throw err;
 
         var w = image.bitmap.width;
