@@ -5,6 +5,7 @@ const Jimp = require("jimp");
 const fs = require("fs");
 const FileBase = require("react-file-base64");
 const spawn = require("child_process").spawn;
+const cors = require("cors");
 
 // get one
 router.get("/findOne/:companyName", async (req, res) => {
@@ -34,7 +35,7 @@ router.get("/", async (req, res) => {
 });
 
 //post one
-router.post("/uploadbase", async (req, res, next) => {
+router.post("/uploadbase", cors(), async (req, res, next) => {
     const cname = req.body.companyName;
     const datum = req.body.imageBase64;
     let base64Datum = datum.replace(/^data:image\/png;base64,/, "");

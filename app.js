@@ -10,6 +10,7 @@ const app = express();
 const path = require("path");
 
 //import routes
+app.options("*", cors());
 const postsRoute = require("./routes/posts");
 const registerRoute = require("./routes/register");
 const loginRoute = require("./routes/login");
