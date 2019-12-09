@@ -34,95 +34,111 @@ router.get("/", async (req, res) => {
 });
 
 //post one
-router.route("/uploadbase").post(async (req, res, next) => {
+router.post("/uploadbase", async (req, res, next) => {
     const cname = req.body.companyName;
-    const newImage = new Image({
-        companyName: req.body.companyName,
-        imageBase64: req.body.imageBase64
-    });
+    const datum = req.body.imageBase64;
+    let base64Datum = datum.replace(/^data:image\/png;base64,/, "");
 
-    const base64Datum = await req.body.imageBase64.replace(
-        /^data:image\/png;base64,/,
-        ""
-    );
-    // async () => {
-    //     return new Promise((resolve, reject) => {
-    fs.writeFile("out.png", base64Datum, "base64", function(err) {
-        if (err) {
-            console.error(err);
-        }
-        console.log("out.png saved");
-    });
-    // });
-    // };
+    mainDoer();
 
-    await Jimp.read("out.png", (err, image) => {
-        if (err) {
-            throw err;
-        }
+    async function mainDoer() {
+        console.log("starting the do");
+        const step1 = await getDataClean(base64Datum);
+        const step2 = await jimpIt();
+        const step3 = await pyProgIt();
+        const step4 = await saveThis();
+        const step5 = console.log("fin?");
+    }
 
-        var w = image.bitmap.width;
-        var h = image.bitmap.height;
-        var wMh = w - h;
-        var tenPer = h * 0.1;
-        console.log("tenPer: wMh ", tenPer, wMh);
+    function getDataClean(data) {
+        console.log("in getData");
 
-        if (wMh < tenPer) {
-            //then it's ~ a square
-            console.log("its a square");
-            image
-                .resize(128, 128) // resize
-                .quality(100) // set JPEG quality
-                // .greyscale() // set greyscale
-                // .invert()
-                .write("smallerImg.png"); // save
-        } else {
-            console.log("it's not a square");
-            image
-                .resize(128, 79) // resize
-                .quality(100) // set JPEG quality
-                // .greyscale() // set greyscale
-                // .invert()
-                .write("smallerImg.png"); // save
-        }
-        // });
-        // console.log("pyprog'd");
-        // const pyprog =
-        // try {
-        () => {
-            spawn("python", ["pillow.py", "smallerImg.png"]),
-                console.log("spawned");
-        };
-        // } catch (error) {
-        // console.error(error);
-        // }
-        // };
-
-        // var data = () => {
-        fs.readFile("encodedTxt.txt", (err, data) => {
-            if (err) throw err;
-
-            data = "data:image/png;base64," + data;
-            // });
-            const bNewImage = new Image({
-                companyName: cname,
-                imageBase64: data
-            });
-
-            /////////////saves to mongo//////////////
-            bNewImage
-                .save()
-                .then(result => {
-                    res.status(200).json({
-                        success: true,
-                        document: result
-                    });
-                    // console.log("in it now");
-                })
-                .catch(err => next(err));
-            /////////////saves to mongo//////////////
+        return new Promise(function(resolve) {
+            setTimeout(function() {
+                fs.writeFile("out.png", data, "base64", function(err) {
+                    if (err) {
+                        console.error(err);
+                    }
+                    console.log("data cleaned: promised");
+                });
+                resolve();
+            }, 1000);
         });
-    });
+    }
+
+    function jimpIt() {
+        console.log("in jimpIt");
+        return new Promise(function(resolve) {
+            setTimeout(function() {
+                Jimp.read("out.png", (err, image) => {
+                    if (err) {
+                        throw err;
+                    }
+                    var w = image.bitmap.width;
+                    var h = image.bitmap.height;
+                    var wMh = w - h;
+                    var tenPer = h * 0.1;
+                    console.log("tenPer: wMh ", tenPer, wMh);
+
+                    if (wMh < tenPer) {
+                        //then it's ~ a square
+                        console.log("its a square");
+                        image
+                            .resize(128, 128) // resize
+                            .quality(100) // set JPEG quality
+                            // .greyscale() // set greyscale
+                            // .invert()
+                            .write("smallerImg.png"); // save
+                    } else {
+                        console.log("it's not a square");
+                        image
+                            .resize(128, 79) // resize
+                            .quality(100) // set JPEG quality
+                            // .greyscale() // set greyscale
+                            // .invert()
+                            .write("smallerImg.png"); // save
+                    }
+                });
+                resolve();
+            }, 1000);
+        });
+    }
+
+    function pyProgIt() {
+        console.log("in pyProgIt");
+        return new Promise(function(resolve) {
+            setTimeout(function() {
+                var pyProcess = spawn("python", [
+                    "./pillow.py",
+                    "./smallerImg.png"
+                ]);
+                console.log("spawned");
+                resolve();
+            }, 1000);
+        });
+    }
+
+    function saveThis() {
+        console.log("in save this");
+        return new Promise(function(resolve) {
+            setTimeout(function() {
+                fs.readFile("encodedTxt.txt", (err, data) => {
+                    if (err) {
+                        throw err;
+                    }
+                    data = "data:image/png;base64," + data;
+                    const bNewImage = new Image({
+                        companyName: cname,
+                        imageBase64: data
+                    });
+                    console.log("saving");
+                    bNewImage.save();
+                });
+
+                resolve();
+            }, 1000);
+        });
+    }
 });
 
 module.exports = router;
