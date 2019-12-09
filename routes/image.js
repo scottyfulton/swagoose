@@ -62,7 +62,7 @@ router.post("/uploadbase", async (req, res, next) => {
                     console.log("data cleaned: promised");
                 });
                 resolve();
-            }, 1000);
+            }, 2000);
         });
     }
 
@@ -100,7 +100,7 @@ router.post("/uploadbase", async (req, res, next) => {
                     }
                 });
                 resolve();
-            }, 1000);
+            }, 2000);
         });
     }
 
@@ -114,7 +114,7 @@ router.post("/uploadbase", async (req, res, next) => {
                 ]);
                 console.log("spawned");
                 resolve();
-            }, 1000);
+            }, 2000);
         });
     }
 
@@ -136,7 +136,7 @@ router.post("/uploadbase", async (req, res, next) => {
                 });
 
                 resolve();
-            }, 1000);
+            }, 2000);
         });
     }
 });
