@@ -9,14 +9,6 @@ const PORT = process.env.PORT || 3003;
 const app = express();
 const path = require("path");
 
-if (process.env.NODE_ENV === "production") {
-    // app.use(express.static("__dirname"));
-    // app.use(express.static("__dirname/routes"));
-    // app.use(express.static("__dirname/imaging"));
-    app.use("/static", express.static(path.join(__dirname, "routes")));
-    app.use("/static", express.static(path.join(__dirname, "imaging")));
-}
-
 //import routes
 const postsRoute = require("./routes/posts");
 const registerRoute = require("./routes/register");
@@ -28,6 +20,14 @@ const imageRoute = require("./routes/image");
 app.use(cors());
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
+
+if (process.env.NODE_ENV === "production") {
+    // app.use(express.static("__dirname"));
+    // app.use(express.static("__dirname/routes"));
+    // app.use(express.static("__dirname/imaging"));
+    app.use("/static", express.static(path.join(__dirname, "routes")));
+    app.use("/static", express.static(path.join(__dirname, "imaging")));
+}
 
 //ROUTES
 
