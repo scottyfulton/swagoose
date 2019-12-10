@@ -10,6 +10,9 @@ const ImageSchema = new mongoose.Schema({
         // type: { data: Buffer, contentType: String },
         type: String,
         required: true
+    },
+    isSquare: {
+        type: Boolean
     }
     // ,
     // dateCreated: {

@@ -38,6 +38,7 @@ router.get("/", async (req, res) => {
 router.post("/uploadbase", cors(), async (req, res, next) => {
     const cname = req.body.companyName;
     const datum = req.body.imageBase64;
+    let isSquare;
     let base64Datum = datum.replace(/^data:image\/png;base64,/, "");
 
     mainDoer();
@@ -84,6 +85,7 @@ router.post("/uploadbase", cors(), async (req, res, next) => {
                     if (wMh < tenPer) {
                         //then it's ~ a square
                         console.log("its a square");
+                        isSquare = true;
                         image
                             .resize(128, 128) // resize
                             .quality(100) // set JPEG quality
@@ -92,6 +94,7 @@ router.post("/uploadbase", cors(), async (req, res, next) => {
                             .write("smallerImg.png"); // save
                     } else {
                         console.log("it's not a square");
+                        isSquare = false;
                         image
                             .resize(128, 79) // resize
                             .quality(100) // set JPEG quality
@@ -130,7 +133,8 @@ router.post("/uploadbase", cors(), async (req, res, next) => {
                     data = "data:image/png;base64," + data;
                     const bNewImage = new Image({
                         companyName: cname,
-                        imageBase64: data
+                        imageBase64: data,
+                        isSquare: isSquare
                     });
                     console.log("saving");
                     bNewImage.save();
