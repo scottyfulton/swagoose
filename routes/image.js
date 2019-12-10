@@ -63,7 +63,7 @@ router.post("/uploadbase", cors(), async (req, res, next) => {
                     console.log("data cleaned: promised");
                 });
                 resolve();
-            }, 1000);
+            }, 500);
         });
     }
 
@@ -101,7 +101,7 @@ router.post("/uploadbase", cors(), async (req, res, next) => {
                     }
                 });
                 resolve();
-            }, 1000);
+            }, 750);
         });
     }
 
